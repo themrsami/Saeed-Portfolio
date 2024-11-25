@@ -65,8 +65,8 @@ const Navbar = () => {
         className={`
           md:hidden absolute right-4 top-4 z-50
           p-2 rounded-xl
-          ${scrolled ? 'bg-black/50 backdrop-blur-md' : 'bg-white/10'}
-          hover:bg-white/20 transition-all duration-300
+          ${scrolled ? 'hover:bg-white/20' : 'hover:bg-white/20'}
+          transition-all duration-300
           text-white
         `}
         aria-label="Toggle Menu"
@@ -81,12 +81,7 @@ const Navbar = () => {
           transition-all duration-500 ease-in-out
           fixed md:relative top-0 md:top-0 right-0
           h-screen md:h-auto w-full md:w-auto
-          ${scrolled 
-            ? 'bg-black/50 backdrop-blur-lg md:backdrop-blur-md' 
-            : 'bg-black/30 backdrop-blur-sm md:backdrop-blur-sm'
-          }
           md:rounded-2xl md:shadow-2xl
-          border border-white/10
           md:max-w-[500px]
         `}
       >
@@ -101,16 +96,13 @@ const Navbar = () => {
                   rounded-xl text-base
                   font-medium
                   transition-all duration-300
-                  relative overflow-hidden
+                  relative
                   ${activeSection === item.id
-                    ? 'text-white bg-gradient-to-r from-purple-500/50 to-blue-500/50'
-                    : 'text-gray-300 hover:text-white hover:bg-white/10'
+                    ? 'text-white after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-1/2 after:-translate-x-1/2 after:bg-gradient-to-r after:from-purple-500 after:to-blue-500'
+                    : 'text-gray-300 hover:text-white hover:after:absolute hover:after:bottom-0 hover:after:left-1/2 hover:after:h-0.5 hover:after:w-1/2 hover:after:-translate-x-1/2 hover:after:bg-gradient-to-r hover:after:from-purple-500/50 hover:after:to-blue-500/50'
                   }
                 `}
               >
-                {activeSection === item.id && (
-                  <span className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 animate-pulse" />
-                )}
                 <span className="relative">
                   {item.label}
                 </span>

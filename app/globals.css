@@ -139,7 +139,7 @@ body {
   padding: 1rem 2rem;
   font-weight: 600;
   font-size: 1.125rem;
-  border-radius: 0.75rem;
+  border-radius: 2.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.01em;
   position: relative;
@@ -190,45 +190,149 @@ body {
   opacity: 1;
 }
 
-/* Expertise Grid */
-.expertise-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem;
+/* Floating Design Tools */
+.floating-tools {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.expertise-card {
-  background: rgba(255, 255, 255, 0.05);
+.tool-icon {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease-out forwards;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  animation: moveOnPath 20s linear infinite;
+  transform-origin: center center;
+}
+
+.tool-icon:nth-child(1) { animation-delay: 0s; }
+.tool-icon:nth-child(2) { animation-delay: -3.33s; }
+.tool-icon:nth-child(3) { animation-delay: -6.66s; }
+.tool-icon:nth-child(4) { animation-delay: -10s; }
+.tool-icon:nth-child(5) { animation-delay: -13.33s; }
+.tool-icon:nth-child(6) { animation-delay: -16.66s; }
+
+.tool-icon img,
+.tool-icon span {
+  width: 40px !important;
+  height: 40px !important;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
+.tool-glow {
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    45deg,
+    rgba(99, 102, 241, 0),
+    rgba(139, 92, 246, 0.3),
+    rgba(99, 102, 241, 0)
+  );
+  border-radius: 20px;
   opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
 }
 
-.expertise-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+.tool-icon:hover {
+  animation-play-state: paused;
+  transform: translateZ(30px) scale(1.2);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    0 0 30px rgba(139, 92, 246, 0.2);
 }
 
-.expertise-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.tool-icon:hover img,
+.tool-icon:hover span {
+  transform: scale(1.1);
 }
 
-.expertise-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+.tool-icon:hover .tool-glow {
+  opacity: 1;
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes moveOnPath {
+  0% {
+    transform: translate(-100px, -100px) translateZ(0);
+  }
+  25% {
+    transform: translate(100px, -100px) translateZ(20px);
+  }
+  50% {
+    transform: translate(100px, 100px) translateZ(0);
+  }
+  75% {
+    transform: translate(-100px, 100px) translateZ(20px);
+  }
+  100% {
+    transform: translate(-100px, -100px) translateZ(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .floating-tools {
+    width: 300px;
+    height: 300px;
+    transform: scale(0.8);
+  }
+
+  .tool-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-icon img,
+  .tool-icon span {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  @keyframes moveOnPath {
+    0% {
+      transform: translate(-75px, -75px) translateZ(0);
+    }
+    25% {
+      transform: translate(75px, -75px) translateZ(20px);
+    }
+    50% {
+      transform: translate(75px, 75px) translateZ(0);
+    }
+    75% {
+      transform: translate(-75px, 75px) translateZ(20px);
+    }
+    100% {
+      transform: translate(-75px, -75px) translateZ(0);
+    }
+  }
 }
 
 /* About Section Animations */

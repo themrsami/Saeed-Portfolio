@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 const Hero = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -91,36 +92,44 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Right Column - Expertise */}
+            {/* Right Column - Floating Design Tools */}
             <div className="relative reveal-animation" style={{ animationDelay: '0.2s' }}>
-              <div className="expertise-grid">
-                {[
-                  {
-                    title: 'Graphic Design',
-                    description: 'Creating visual content that communicates messages effectively'
-                  },
-                  {
-                    title: 'Videography',
-                    description: 'Capturing and editing compelling video content'
-                  },
-                  {
-                    title: 'Motion Design',
-                    description: 'Bringing static designs to life through animation'
-                  },
-                  {
-                    title: 'Visual Storytelling',
-                    description: 'Crafting narratives through visual elements'
-                  }
-                ].map((skill, index) => (
-                  <div 
-                    key={index}
-                    className="expertise-card glow-on-hover"
-                    style={{ animationDelay: `${0.1 * index}s` }}
-                  >
-                    <h3 className="expertise-title">{skill.title}</h3>
-                    <p className="expertise-description">{skill.description}</p>
-                  </div>
-                ))}
+              <div className="floating-tools">
+                {/* Figma */}
+                <div className="tool-icon" style={{ '--delay': '0s', '--top': '10%', '--left': '20%' } as React.CSSProperties}>
+                  <Image src="/design-tools/figma.svg" alt="Figma" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
+
+                {/* Photoshop */}
+                <div className="tool-icon" style={{ '--delay': '0.3s', '--top': '15%', '--right': '25%' } as React.CSSProperties}>
+                  <Image src="/design-tools/photoshop.svg" alt="Adobe Photoshop" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
+
+                {/* Illustrator */}
+                <div className="tool-icon" style={{ '--delay': '0.6s', '--top': '40%', '--left': '15%' } as React.CSSProperties}>
+                  <Image src="/design-tools/illustrator.svg" alt="Adobe Illustrator" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
+
+                {/* After Effects */}
+                <div className="tool-icon" style={{ '--delay': '0.9s', '--bottom': '30%', '--right': '20%' } as React.CSSProperties}>
+                  <Image src="/design-tools/after-effects.svg" alt="Adobe After Effects" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
+
+                {/* XD */}
+                <div className="tool-icon" style={{ '--delay': '1.2s', '--bottom': '15%', '--left': '25%' } as React.CSSProperties}>
+                  <Image src="/design-tools/xd.svg" alt="Adobe XD" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
+
+                {/* Sketch */}
+                <div className="tool-icon" style={{ '--delay': '1.5s', '--top': '25%', '--right': '15%' } as React.CSSProperties}>
+                  <Image src="/design-tools/sketch.svg" alt="Sketch" width={40} height={40} />
+                  <div className="tool-glow"></div>
+                </div>
               </div>
             </div>
           </div>
