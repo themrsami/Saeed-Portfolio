@@ -1,133 +1,205 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { FiZap, FiStar} from 'react-icons/fi';
 
 const About = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="relative min-h-screen flex items-center justify-center py-20">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[#0A0A0A]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_100%_200px,rgba(123,31,162,0.15),transparent)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_0%_300px,rgba(59,130,246,0.15),transparent)]"></div>
-        <div className="absolute inset-0 bg-grid"></div>
-      </div>
+    <section id="about" className="relative min-h-screen py-20">
+      <div className="container relative z-10 mx-auto px-6">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Enhanced Section Header */}
+          <div className={`text-center mb-20 transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="relative inline-block mb-6">
+              <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20 rounded-full blur-xl animate-pulse"></div>
+              <div className="relative bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border border-white/10 rounded-full px-8 py-3">
+                <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold text-lg">
+                  ✦ About Me ✦
+                </span>
+              </div>
+            </div>
+            
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tight">
+              <span className="block bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent relative">
+                Meet the Creator
+                <span className="absolute inset-0 bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent blur-sm opacity-30"></span>
+              </span>
+            </h2>
+            
+            <p className="text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed mb-12">
+              Passionate video editor and motion designer crafting 
+              <span className="text-purple-300 font-semibold"> visual stories </span>
+              that <span className="text-pink-300 font-semibold">captivate and inspire</span>
+            </p>
 
-      <div className="container relative z-10 px-6">
-        <div className="max-w-[1200px] mx-auto">
-          {/* Main Content Card */}
-          <div className="glass-card rounded-[2.5rem] p-12 shadow-2xl">
-            {/* Glow Effects */}
-            <div className="absolute -top-20 -right-20 w-60 h-60 bg-purple-500/20 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl"></div>
+            {/* Stats Section */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto mb-16">
+              {[
+                { label: "Experience", value: "5+" },
+                { label: "Projects", value: "150+" },
+                { label: "Happy Clients", value: "50+" },
+                { label: "Creative Hours", value: "10K+" }
+              ].map((stat, index) => (
+                <div key={index} className="text-center group">
+                  <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {stat.value}
+                  </div>
+                  <div className="text-white/60 text-sm font-medium tracking-wide uppercase">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-16">
-              {/* Left Column - Image & Stats */}
-              <div className="lg:col-span-1 space-y-8">
-                {/* Profile Image Container */}
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {/* Left Side - Profile Card */}
+            <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '200ms' }}>
+              <div className="group relative backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-700">
+                {/* Glow Effect */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 blur-lg"></div>
+                
                 <div className="relative">
-                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden glass-card">
-                    <Image
-                      src="/saeed.jpg"
-                      alt="Saeed Ijaz"
-                      fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  {/* Profile Image */}
+                  <div className="relative mb-6">
+                    <div className="aspect-square w-32 mx-auto rounded-xl overflow-hidden backdrop-blur-xl border border-white/10 group-hover:scale-105 transition-all duration-500">
+                      <Image
+                        src="/saeed.jpg"
+                        alt="Saeed Ijaz"
+                        fill
+                        className="object-cover"
+                        sizes="128px"
+                        priority
+                      />
+                    </div>
+                    
+                    {/* Status Badge */}
+                    <div className="absolute -bottom-1 -right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-[#0A0A0A] animate-pulse"></div>
                   </div>
                   
-                  {/* Name Tag */}
-                  <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%]">
-                    <div className="glass-card p-4 rounded-xl text-center">
-                      <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-                        Saeed Ijaz
-                      </h2>
+                  {/* Profile Info */}
+                  <div className="text-center space-y-3">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      Saeed Ijaz
+                    </h3>
+                    <p className="text-white/70 text-sm">Video Editor & Motion Designer</p>
+                    <p className="text-white/50 text-xs leading-relaxed">
+                      Based in Pakistan, creating compelling visual narratives through expert editing and motion graphics.
+                    </p>
+                  </div>
+
+                  {/* Quick Stats */}
+                  <div className="grid grid-cols-2 gap-3 mt-6">
+                    <div className="text-center p-3 backdrop-blur-xl border border-white/10 rounded-lg">
+                      <div className="text-lg font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">5+</div>
+                      <div className="text-xs text-white/60">Years</div>
+                    </div>
+                    <div className="text-center p-3 backdrop-blur-xl border border-white/10 rounded-lg">
+                      <div className="text-lg font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">100+</div>
+                      <div className="text-xs text-white/60">Projects</div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-4 pt-8">
-                  {[
-                    { label: 'Experience', value: '5+' },
-                    { label: 'Projects', value: '100+' },
-                  ].map((stat, index) => (
-                    <div key={index} className="glass-card p-4 rounded-xl text-center">
-                      <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-                        {stat.value}
-                      </div>
-                      <div className="text-sm text-gray-400 mt-1">{stat.label}</div>
+            {/* Center - Specialties */}
+            <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '400ms' }}>
+              <div className="backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <FiStar className="w-5 h-5 text-pink-400" />
+                  <h4 className="text-lg font-bold text-white">Specialties</h4>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <h5 className="text-sm font-semibold text-white/80 mb-2">Software</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'Cinema 4D'].map((tool, index) => (
+                        <span 
+                          key={index}
+                          className="px-3 py-1 border border-white/10 rounded-full text-xs text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300"
+                        >
+                          {tool}
+                        </span>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  
+                  <div>
+                    <h5 className="text-sm font-semibold text-white/80 mb-2">Services</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {['Brand Videos', 'Social Content', 'Documentary', 'Motion Design'].map((service, index) => (
+                        <span 
+                          key={index}
+                          className="px-3 py-1 border border-white/10 rounded-full text-xs text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300"
+                        >
+                          {service}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h5 className="text-sm font-semibold text-white/80 mb-2">Expertise</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {['Visual Storytelling', 'Post Production', 'Creative Concepts'].map((expertise, index) => (
+                        <span 
+                          key={index}
+                          className="px-3 py-1 border border-white/10 rounded-full text-xs text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300"
+                        >
+                          {expertise}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              {/* Right Column - Content */}
-              <div className="lg:col-span-2 space-y-10">
-                {/* Title & Description */}
-                <div className="space-y-4">
-                  <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-                    Creative Designer
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed">
-                    Transforming ideas into captivating visual experiences through innovative design solutions.
-                  </p>
+            {/* Right Side - Core Skills */}
+            <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`} style={{ transitionDelay: '600ms' }}>
+              <div className="backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <FiZap className="w-4 h-4 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white">Core Skills</h4>
                 </div>
-
-                {/* Skills Matrix */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div className="space-y-4">
                   {[
-                    {
-                      title: 'Design',
-                      skills: [
-                        { name: 'UI/UX Design', level: 90 },
-                        { name: 'Graphic Design', level: 95 },
-                        { name: 'Motion Design', level: 85 }
-                      ]
-                    },
-                    {
-                      title: 'Tools',
-                      skills: [
-                        { name: 'Adobe Suite', level: 95 },
-                        { name: 'Figma', level: 90 },
-                        { name: 'After Effects', level: 85 }
-                      ]
-                    }
-                  ].map((category, idx) => (
-                    <div key={idx} className="glass-card p-6 rounded-xl space-y-4">
-                      <h4 className="text-lg font-semibold text-white/90">{category.title}</h4>
-                      <div className="space-y-4">
-                        {category.skills.map((skill, index) => (
-                          <div key={index} className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-300">{skill.name}</span>
-                              <span className="text-gray-400">{skill.level}%</span>
-                            </div>
-                            <div className="h-1.5 bg-white/[0.03] rounded-full overflow-hidden">
-                              <div 
-                                className="skill-bar h-full rounded-full bg-gradient-to-r from-purple-500 to-blue-500"
-                                style={{ width: `${skill.level}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        ))}
+                    { name: 'Video Editing', level: 95 },
+                    { name: 'Motion Graphics', level: 90 },
+                    { name: 'Creative Direction', level: 88 },
+                    { name: 'Color Grading', level: 85 }
+                  ].map((skill, index) => (
+                    <div key={index} className="group">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-white/90 text-sm font-medium">{skill.name}</span>
+                        <span className="text-purple-400 text-xs font-bold">{skill.level}%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
+                          style={{ 
+                            width: `${skill.level}%`,
+                            transitionDelay: `${index * 150}ms`
+                          }}
+                        ></div>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                {/* Additional Skills */}
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    'Brand Identity', 'Visual Design', '3D Design',
-                    'Motion Graphics', 'Video Editing', 'Creative Direction'
-                  ].map((skill, index) => (
-                    <span 
-                      key={index}
-                      className="skill-tag px-4 py-2 rounded-full text-sm glass-card text-gray-300"
-                    >
-                      {skill}
-                    </span>
                   ))}
                 </div>
               </div>
@@ -135,7 +207,7 @@ const About = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
