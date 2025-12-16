@@ -1,47 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FiMenu, FiX, FiStar } from 'react-icons/fi';
+import { FiMenu, FiX, FiArrowUpRight, FiHome, FiUser, FiGrid, FiLayers, FiMail } from 'react-icons/fi';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const [scrolled, setScrolled] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const menuItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'services', label: 'Services' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', icon: FiHome },
+    { id: 'about', label: 'About', icon: FiUser },
+    { id: 'portfolio', label: 'Work', icon: FiGrid },
+    { id: 'services', label: 'Services', icon: FiLayers },
+    { id: 'contact', label: 'Contact', icon: FiMail },
   ];
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80;
+      const offset = 0;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
       setIsOpen(false);
     }
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-
       const sections = menuItems.map(item => {
         const element = document.getElementById(item.id);
         if (element) {
           return {
             id: item.id,
-            offset: Math.abs(element.getBoundingClientRect().top - 100)
+            offset: Math.abs(element.getBoundingClientRect().top - 200)
           };
         }
         return { id: item.id, offset: Infinity };
@@ -54,184 +47,177 @@ const Navbar = () => {
       setActiveSection(currentSection.id);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <>
-      {/* Premium Navigation Container */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-        <div className="max-w-7xl mx-auto">
-          <div className={`
-            relative flex items-center justify-between
-            px-6 py-4 rounded-3xl
-            transition-all duration-700 ease-out
-            ${scrolled 
-              ? 'bg-black/20 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50' 
-              : 'bg-transparent'
-            }
-          `}>
-            
-            {/* Logo/Brand */}
-            <div className="flex items-center space-x-2 z-20">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                <FiStar className="text-white text-sm" />
-              </div>
-              <span className="text-white font-bold text-xl tracking-tight">
-                Saeed&nbsp;<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Designs</span>
-              </span>
-            </div>
+      {/* Fixed Left Side Navigation - Desktop */}
+      <nav className="fixed left-0 top-0 h-screen w-20 z-50 hidden lg:flex flex-col items-center justify-between py-8 border-r border-secondary/5">
+        {/* Logo - Rotated */}
+        <button 
+          onClick={() => scrollToSection('home')}
+          className="text-lg font-display font-bold tracking-tight text-secondary hover:text-accent transition-colors duration-300"
+          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+        >
+          SAEED<span className="text-accent">.</span>
+        </button>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center">
-              <ul className="flex items-center space-x-1">
-                {menuItems.map((item, index) => (
-                  <li key={item.id}>
-                    <button
-                      onClick={() => scrollToSection(item.id)}
-                      className={`
-                        relative px-6 py-3 rounded-2xl text-sm font-medium
-                        transition-all duration-500 ease-out
-                        group overflow-hidden
-                        ${activeSection === item.id
-                          ? 'text-white bg-white/10 backdrop-blur-sm'
-                          : 'text-gray-300 hover:text-white hover:bg-white/5'
-                        }
-                      `}
-                      style={{ 
-                        animationDelay: `${index * 100}ms`,
-                        animation: 'navItemSlide 0.8s ease-out forwards'
-                      }}
-                    >
-                      {/* Hover effect background */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl scale-0 group-hover:scale-100 transition-transform duration-500 ease-out" />
-                      
-                      {/* Active indicator */}
-                      {activeSection === item.id && (
-                        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full" />
-                      )}
-                      
-                      <span className="relative z-10">{item.label}</span>
-                      
-                      {/* Shimmer effect */}
-                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* Navigation Items with Icons */}
+        <div className="flex flex-col items-center gap-2">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`group relative flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 ${
+                  activeSection === item.id
+                    ? 'bg-accent text-primary'
+                    : 'text-secondary/40 hover:text-secondary hover:bg-secondary/5'
+                }`}
+              >
+                <Icon className={`w-5 h-5 transition-transform duration-300 ${
+                  activeSection === item.id || hoveredItem === item.id ? 'scale-110' : ''
+                }`} />
+                
+                {/* Tooltip */}
+                <span className={`absolute left-16 px-4 py-2 bg-muted text-secondary text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-300 border border-secondary/10 ${
+                  hoveredItem === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+                }`}>
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={`
-                md:hidden relative z-20 flex items-center justify-center p-3 rounded-2xl
-                transition-all duration-300 ease-out
-                ${scrolled ? 'bg-white/10 backdrop-blur-sm' : 'bg-white/5'}
-                hover:bg-white/20 hover:scale-105
-                text-white
-              `}
-              aria-label="Toggle Menu"
-            >
-              <div className="relative w-6 h-6 flex items-center justify-center">
-                {/* Only animate translate for burger, not rotate for X */}
-                {!isOpen ? (
-                  <span className={`block transition-all duration-300 ${isOpen ? '' : '-translate-y-0.5'}`}>
-                    <FiMenu size={24} />
-                  </span>
-                ) : (
-                  <span className="block transition-all duration-300">
-                    <FiX size={24} />
-                  </span>
-                )}
-              </div>
-            </button>
-          </div>
+        {/* Scroll Indicator */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-px h-12 bg-gradient-to-b from-transparent via-accent/50 to-transparent" />
+          <span 
+            className="text-[10px] font-medium text-secondary/30 tracking-[0.2em]"
+            style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+          >
+            SCROLL
+          </span>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`
-          fixed inset-0 z-40 md:hidden
-          transition-all duration-700 ease-out
-          ${isOpen 
-            ? 'opacity-100 pointer-events-auto' 
-            : 'opacity-0 pointer-events-none'
-          }
-        `}
-      >
-        {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/50 backdrop-blur-xl"
-          onClick={() => setIsOpen(false)}
-        />
+      {/* Fixed Top Bar - Mobile & Tablet */}
+      <div className="fixed top-0 left-0 right-0 z-50 lg:hidden">
+        <div className="flex items-center justify-between px-6 py-5">
+          {/* Logo */}
+          <button 
+            onClick={() => scrollToSection('home')}
+            className="text-xl font-display font-bold tracking-tight text-secondary"
+          >
+            SAEED<span className="text-accent">.</span>
+          </button>
+
+          {/* Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`relative z-50 w-12 h-12 flex items-center justify-center rounded-2xl transition-all duration-300 ${
+              isOpen ? 'bg-accent text-primary' : 'bg-muted text-secondary'
+            }`}
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Full Screen Menu Overlay */}
+      <div className={`fixed inset-0 z-40 transition-all duration-700 ${
+        isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}>
+        {/* Background - Full Screen Black */}
+        <div className="absolute inset-0 bg-primary" />
         
         {/* Menu Content */}
-        <div className={`
-          absolute top-0 right-0 h-full w-80 max-w-full
-          bg-gradient-to-br from-gray-900/95 to-black/95
-          backdrop-blur-xl border-l border-white/10
-          transform transition-transform duration-700 ease-out
-          ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-        `}>
-          <div className="flex flex-col h-full pt-24 pb-8 px-6">
-            <ul className="space-y-2 flex-1">
-              {menuItems.map((item, index) => (
-                <li key={item.id}>
+        <div className="relative h-full flex flex-col lg:flex-row">
+          {/* Left Side - Navigation */}
+          <div className="flex-1 flex flex-col justify-center px-4 sm:px-8 md:px-16 lg:px-24 pt-24 lg:pt-0 overflow-hidden">
+            <nav className="space-y-1">
+              {menuItems.map((item, index) => {
+                return (
                   <button
+                    key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`
-                      w-full text-left px-6 py-4 rounded-2xl text-lg font-medium
-                      transition-all duration-500 ease-out
-                      relative overflow-hidden group
-                      ${activeSection === item.id
-                        ? 'text-white bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30'
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
-                      }
-                    `}
-                    style={{ 
-                      animationDelay: `${(index + 1) * 100}ms`,
-                      animation: isOpen ? 'mobileMenuSlide 0.6s ease-out forwards' : 'none',
-                      opacity: 0,
-                      transform: 'translateX(100px)'
-                    }}
+                    className={`group flex items-center justify-between w-full text-left transition-all duration-500 py-2 sm:py-3 ${
+                      isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: isOpen ? `${index * 80 + 200}ms` : '0ms' }}
                   >
-                    <span className="relative z-10">{item.label}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-2xl" />
+                    {/* Label */}
+                    <span className={`text-4xl sm:text-5xl md:text-7xl font-display font-bold transition-all duration-300 ${
+                      activeSection === item.id 
+                        ? 'text-accent' 
+                        : 'text-secondary group-hover:text-accent'
+                    }`}>
+                      {item.label}
+                    </span>
+                    
+                    {/* Arrow */}
+                    <FiArrowUpRight className={`w-6 h-6 sm:w-8 sm:h-8 transition-all duration-300 flex-shrink-0 ${
+                      activeSection === item.id 
+                        ? 'text-accent opacity-100 rotate-0' 
+                        : 'text-secondary/30 group-hover:text-accent group-hover:rotate-45'
+                    }`} />
                   </button>
-                </li>
-              ))}
-            </ul>
-            
-            {/* Mobile Menu Footer */}
-            <div className="pt-6 border-t border-white/10">
-              <p className="text-gray-400 text-sm text-center">
-                Let&apos;s create something amazing together
-              </p>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Right Side - Info */}
+          <div className={`lg:w-96 flex flex-col justify-end p-8 md:p-16 transition-all duration-700 delay-500 ${
+            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            <div className="space-y-8">
+              <div>
+                <p className="text-secondary/40 text-xs uppercase tracking-widest mb-2">Get in touch</p>
+                <a href="mailto:hello@saeeddesigns.com" className="text-secondary hover:text-accent transition-colors text-lg font-medium">
+                  hello@saeeddesigns.com
+                </a>
+              </div>
+              
+              <div>
+                <p className="text-secondary/40 text-xs uppercase tracking-widest mb-2">Based in</p>
+                <p className="text-secondary text-lg font-medium">Dubai, UAE</p>
+              </div>
+              
+              <div>
+                <p className="text-secondary/40 text-xs uppercase tracking-widest mb-3">Follow</p>
+                <div className="flex gap-4">
+                  {['Behance', 'Dribbble', 'LinkedIn'].map((social) => (
+                    <a 
+                      key={social}
+                      href="#" 
+                      className="text-secondary/50 hover:text-accent transition-colors text-sm font-medium hover-underline"
+                    >
+                      {social}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Dynamic cursor effect for desktop */}
-      <div 
-        className="hidden lg:block fixed pointer-events-none z-30 w-8 h-8 rounded-full bg-gradient-to-br from-purple-400/30 to-pink-400/30 blur-sm transition-all duration-300 ease-out"
-        style={{
-          left: mousePosition.x - 16,
-          top: mousePosition.y - 16,
-        }}
-      />
+      {/* Page Content Offset for Desktop */}
+      <style jsx global>{`
+        @media (min-width: 1024px) {
+          main {
+            margin-left: 80px;
+          }
+        }
+      `}</style>
     </>
   );
 };

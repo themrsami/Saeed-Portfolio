@@ -8,23 +8,13 @@ import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
       <Navbar />
-      <section id="home">
-        <Hero />
-      </section>
-      <section id="about">
-        <About />
-      </section>
-      <section id="portfolio">
-        <Portfolio />
-      </section>
-      <section id="services">
-        <Services />
-      </section>
-      <section id="contact">
-        <Contact />
-      </section>
+      <Hero />
+      <About />
+      <Portfolio />
+      <Services />
+      <Contact />
       <Footer />
     </main>
   );

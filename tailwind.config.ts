@@ -9,8 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "#0A0A0A",
+        foreground: "#F5F5F0",
+        primary: "#0A0A0A",
+        secondary: "#F5F5F0",
+        accent: "#FF6B5B",
+        muted: "#1A1A1A",
+        "muted-foreground": "#888888",
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
       },
     },
   },
